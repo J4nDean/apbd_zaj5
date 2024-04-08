@@ -4,7 +4,7 @@ public class Animal
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public string Type { get; set; }
-    public double masa { get; set; }
-    public string kolorSiersci { get; set; }
+    public string Typ { get; set; }
+    public double Weight { get; set; }
+    public string FurColor { get; set; }
 }

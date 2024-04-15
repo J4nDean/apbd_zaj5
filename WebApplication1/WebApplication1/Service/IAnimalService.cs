@@ -1,14 +1,15 @@
 ﻿using WebApplication1.models;
+using System.Collections.Generic;
 
-namespace WebApplication1.IAnimalService;
-
-public interface IAnimalService
+namespace WebApplication1.Service
 {
-    List<Animal> GetAnimals();
-    Animal GetAnimal(int id);
-    Animal AddAnimal(Animal animal);
-    Animal UpdateAnimal(int id, Animal updatedAnimal);
-    void DeleteAnimal(int id);
-    List<Visit> GetVisits(int id);
-    Visit AddVisit(int id, Visit visit);
+    public interface IAnimalService
+    {
+        Animal GetAnimal(int id);
+        Animal AddAnimal(Animal newAnimal);
+        Animal UpdateAnimal(int id, Animal updatedAnimal);
+        void DeleteAnimal(int id);
+        List<Visit> GetVisits(int id);
+        Visit AddVisit(int id, Visit visit);
+    }
 }

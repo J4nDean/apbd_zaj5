@@ -1,8 +1,7 @@
 ﻿using WebApplication1.models;
-
 namespace WebApplication1.Service;
 
-public class AnimalService : IAnimalService.IAnimalService
+public class AnimalService : IAnimalService
 {
     private static List<Animal> Animals = new List<Animal>
     {
@@ -13,60 +12,98 @@ public class AnimalService : IAnimalService.IAnimalService
     private static List<Visit> Visits = new List<Visit>
     {
         new Visit { VisitDate = DateTime.Now.AddDays(-10), Animal = Animals[0], Description = "Regular check-up", Price = 50 },
-        new Visit { VisitDate = DateTime.Now.AddDays(-5), Animal = Animals[1], Description = "Vaccination", Price = 70 }
+        new Visit { VisitDate = DateTime.Now.AddDays(-5), Animal = Animals[1], Description = "Vaccination", Price = 70 },
+        new Visit { VisitDate = DateTime.Now.AddDays(-2), Animal = Animals[0], Description = "Surgery", Price = 150 }
     };
-
-    public List<Animal> GetAnimals()
-    {
-        return Animals;
-    }
 
     public Animal GetAnimal(int id)
     {
-        return Animals.FirstOrDefault(a => a.Id == id);
+        foreach (var animal in Animals)
+        {
+            if (animal.Id == id)
+            {
+                return animal;
+            }
+        }
+
+        return null;
     }
 
-    public Animal AddAnimal(Animal animal)
+    public Animal AddAnimal(Animal newAnimal)
     {
-        Animals.Add(animal);
-        return animal;
+        foreach (var animal in Animals)
+        {
+            if (animal.Id == newAnimal.Id)
+            {
+                return newAnimal;
+            }
+        }
+
+        Animals.Add(newAnimal);
+        return newAnimal;
     }
 
     public Animal UpdateAnimal(int id, Animal updatedAnimal)
     {
-        var animal = Animals.FirstOrDefault(a => a.Id == id);
-        if (animal != null)
+        foreach (var animal in Animals)
         {
-            animal.Name = updatedAnimal.Name;
-            animal.Category = updatedAnimal.Category;
-            animal.Weight = updatedAnimal.Weight;
-            animal.FurColor = updatedAnimal.FurColor;
+            if (animal.Id == id)
+            {
+                animal.Name = updatedAnimal.Name;
+                animal.Category = updatedAnimal.Category;
+                animal.Weight = updatedAnimal.Weight;
+                animal.FurColor = updatedAnimal.FurColor;
+                return animal;
+            }
         }
-        return animal;
+
+        return null;
     }
 
     public void DeleteAnimal(int id)
     {
-        var animal = Animals.FirstOrDefault(a => a.Id == id);
-        if (animal != null)
+        Animal animalToRemove = null;
+        foreach (var animal in Animals)
         {
-            Animals.Remove(animal);
+            if (animal.Id == id)
+            {
+                animalToRemove = animal;
+                break;
+            }
+        }
+
+        if (animalToRemove != null)
+        {
+            Animals.Remove(animalToRemove);
         }
     }
 
     public List<Visit> GetVisits(int id)
     {
-        return Visits.Where(v => v.Animal.Id == id).ToList();
+        var animalVisits = new List<Visit>();
+        foreach (var visit in Visits)
+        {
+            if (visit.Animal.Id == id)
+            {
+                animalVisits.Add(visit);
+            }
+        }
+
+        return animalVisits;
     }
 
     public Visit AddVisit(int id, Visit visit)
     {
-        var animal = Animals.FirstOrDefault(a => a.Id == id);
-        if (animal != null)
+        foreach (var animal in Animals)
         {
-            visit.Animal = animal;
-            Visits.Add(visit);
+            if (animal.Id == id)
+            {
+                visit.Animal = animal;
+                Visits.Add(visit);
+                return visit;
+            }
         }
-        return visit;
+
+        return null;
     }
 }

@@ -1,5 +1,4 @@
-﻿using WebApplication1.IAnimalService;
-using WebApplication1.Service;
+﻿using WebApplication1.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 

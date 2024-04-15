@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApplication1.IAnimalService;
 using WebApplication1.models;
+using WebApplication1.Service;
 
 [Route("api/[controller]")]
 [ApiController]

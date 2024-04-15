@@ -1,83 +1,76 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication1.IAnimalService;
 using WebApplication1.models;
-using System.Linq;
-
-namespace WebApplication1.controller;
 
 [Route("api/[controller]")]
 [ApiController]
 public class AnimalsController : ControllerBase
 {
-    private static List<Animal> Animals = new List<Animal>();
-    private static List<Visit> Visits = new List<Visit>();
+    private readonly IAnimalService _animalService;
+
+    public AnimalsController(IAnimalService animalService)
+    {
+        _animalService = animalService;
+    }
 
     [HttpGet]
     public ActionResult<List<Animal>> GetAnimals()
     {
-        return Animals;
+        return _animalService.GetAnimals();
     }
 
     [HttpGet("{id}")]
     public ActionResult<Animal> GetAnimal(int id)
     {
-        var animal = Animals.FirstOrDefault(a => a.Id == id);
+        var animal = _animalService.GetAnimal(id);
         if (animal == null)
         {
             return NotFound();
         }
+
         return animal;
     }
 
     [HttpPost]
     public ActionResult<Animal> AddAnimal(Animal animal)
     {
-        Animals.Add(animal);
-        return animal;
+        return _animalService.AddAnimal(animal);
     }
 
     [HttpPut("{id}")]
     public ActionResult<Animal> UpdateAnimal(int id, Animal updatedAnimal)
     {
-        var animal = Animals.FirstOrDefault(a => a.Id == id);
+        var animal = _animalService.UpdateAnimal(id, updatedAnimal);
         if (animal == null)
         {
             return NotFound();
         }
-        animal.Name = updatedAnimal.Name;
-        animal.Category = updatedAnimal.Category;
-        animal.Weight = updatedAnimal.Weight;
-        animal.FurColor = updatedAnimal.FurColor;
+
         return animal;
     }
 
     [HttpDelete("{id}")]
     public ActionResult DeleteAnimal(int id)
     {
-        var animal = Animals.FirstOrDefault(a => a.Id == id);
-        if (animal == null)
-        {
-            return NotFound();
-        }
-        Animals.Remove(animal);
+        _animalService.DeleteAnimal(id);
         return NoContent();
     }
 
     [HttpGet("{id}/visits")]
     public ActionResult<List<Visit>> GetVisits(int id)
     {
-        return Visits.Where(v => v.Animal.Id == id).ToList();
+        return _animalService.GetVisits(id);
     }
 
     [HttpPost("{id}/visits")]
-    public ActionResult<Visit> AddVisit(int id, Visit visit)
+    public ActionResult<Visit> AddVisit(int id, Visit visitParam)
     {
-        var animal = Animals.FirstOrDefault(a => a.Id == id);
-        if (animal == null)
+        var visit = _animalService.AddVisit(id, visitParam);
+        if (visit == null)
         {
             return NotFound();
         }
-        visit.Animal = animal;
-        Visits.Add(visit);
+
         return visit;
     }
 }

@@ -1,10 +1,12 @@
 ﻿using WebApplication1.models;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication1.Service
 {
     public interface IAnimalService
     {
+        List<Animal> GetListAnimal();
         Animal GetAnimal(int id);
         Animal AddAnimal(Animal newAnimal);
         Animal UpdateAnimal(int id, Animal updatedAnimal);

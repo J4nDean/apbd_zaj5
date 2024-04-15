@@ -12,7 +12,12 @@ public class AnimalsController : ControllerBase
     {
         _animalService = animalService;
     }
-    
+
+    [HttpGet]
+    public ActionResult<List<Animal>> GetListAnimal()
+    {
+        return _animalService.GetListAnimal();
+    }
 
     [HttpGet("{id}")]
     public ActionResult<Animal> GetAnimal(int id)

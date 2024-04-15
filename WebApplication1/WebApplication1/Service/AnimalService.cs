@@ -1,4 +1,5 @@
-﻿using WebApplication1.models;
+﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication1.models;
 namespace WebApplication1.Service;
 
 public class AnimalService : IAnimalService
@@ -15,6 +16,12 @@ public class AnimalService : IAnimalService
         new Visit { VisitDate = DateTime.Now.AddDays(-5), Animal = Animals[1], Description = "Vaccination", Price = 70 },
         new Visit { VisitDate = DateTime.Now.AddDays(-2), Animal = Animals[0], Description = "Surgery", Price = 150 }
     };
+
+    public List<Animal> GetListAnimal()
+    {
+        return Animals;
+    }
+    
 
     public Animal GetAnimal(int id)
     {
